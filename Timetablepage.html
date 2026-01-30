@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<python database.py >
+<html lang="en">
+    <body style="background-color:#F8F7F3 ;"> 
+    <head> 
+    <style>
+    .homebtn {
+    background-color: none;
+    color: none;
+    font-size: 15px;
+    padding: 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    }
+    #slot1{
+    position: absolute;
+
+    /* 👇 These numbers control where the text boxes are */
+    left: 35px;
+    top: 25px;
+    width: 380px;
+    height: 10px;
+
+    /* centers the button inside that rectangle */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    }
+
+    .addActivityBtn{
+    padding: 10px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    }
+
+    #ActivityBox{
+    position: relative;
+    width: 450px;
+    height: 700px;
+    left: 10px;
+    top: 25px;
+    }
+
+    .ActivityBoxImg{
+    width: 100%;
+    height: 100%;
+    display: block;
+    }
+
+    /* Each overlay slot sits on top of one “rectangle” in your image */
+    .slot{
+    position: absolute;
+    border-radius: 18px; /* match your rounded box look */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    box-sizing: border-box;
+    }
+
+    /* STARTER POSITIONS (you will tweak these numbers) */
+    .slot[data-slot="0"]{ right: 40px; top: 250px; width: 380px; height: 110px; }
+    .slot[data-slot="1"]{ right: 40px; top: 370px; width: 380px; height: 110px; }
+    .slot[data-slot="2"]{ right: 40px; top: 480px; width: 380px; height: 110px; }
+    .slot[data-slot="3"]{ right: 40px; top: 600px; width: 380px; height: 110px; }
+    .slot[data-slot="4"]{ right: 40px; top: 730px; width: 380px; height: 110px; } /* may be too low; tweak */
+    /* The “Add subject” look */
+    .slot .addHint{
+    cursor: pointer;
+    font-size: 16px;
+    padding: 10px 14px;
+    border-radius: 10px;
+    }
+
+    /* Inline form styling */
+    .inlineForm{
+    width: 100%;
+    display: grid;
+    gap: 6px;
+    }
+
+    .inlineForm input{
+    width: 100%;
+    padding: 6px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    }
+
+    .inlineForm .row{
+    display: flex;
+    gap: 8px;
+    }
+
+    .inlineForm button{
+    padding: 6px 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    }
+
+    /* Saved activity display */
+    .ActivityCard{
+    width: 100%;
+    text-align: left;
+    font-size: 20px;
+    line-height: 1.2;
+    }
+    .ActivityCard .title{
+    font-weight: 700;
+    margin-bottom: 6px;
+    }
+    .ActivityCard .meta{
+    font-size: 16px;
+    }
+
+    
+    </style>
+    
+    </style>
+   
+   <!--The following code is for the navigation panel -->
+
+    <button class ="logo"> 
+        <img src="./Elements/Purple logo.png" style = "width: 120px;height:120px; " style="box-shadow: 10px 10px 5px grey;">
+    </button>
+    <button id="navigateButton" onclick = location.href='index.html'class="Home" style = "position: relative;width: 220px;height: 90px;left: 200px;top: 0.5px;"> 
+        <img src="./Elements/Home .png" style="box-shadow: 10px 10px 5px grey;">
+         <script>
+        document.getElementById("navigateButton").onclick = function () {
+            window.location.href = "index.html";
+        };
+    </script>
+    </button>
+    <button onclick = location.href='Timetablepage.html' class="Timetable" style = "position: relative;width: 350px;height: 90px;left: 250px;top: 0.5px;" style="box-shadow: 10px 10px 5px grey;">
+        <img src="./Elements/Timetable.png "style="box-shadow: 10px 10px 5px grey;" >
+    </button>
+    <button onclick = location.href='Motivationpage.html' class="Timetable"style = "position: relative;width: 400px;height: 90px;left: 300px;top: 0.5px;" style="box-shadow: 10px 10px 5px grey;" >
+        <img src="./Elements/Motivation.png "style="box-shadow: 10px 10px 5px grey;">
+    </button>
+
+    <background class="Today" >
+        <img src="./Elements/Today.png "style = "position: relative;width: 450px;height: 700px;left: 10px;top: 25px;"style="box-shadow: 10px 10px 5px grey;">
+    </background>
+    <background class="TTcreator" >
+        <img src="./Elements/TTcreator.png "style = "position: relative;width: 500px;height: 700px;left: 10px;top: 25px; >
+    </background>
+    <background class="Activities" >
+        <img src="./Elements/Extra-curr.png " style = "position: relative;width: 450px;height: 700px;left: 10px;top: 25px;"style="box-shadow: 10px 10px 5px grey;">
+    </background>
+
+     
+    <!-- 5 overlay slots (adjust positions in CSS) -->
+    <div class="slot" data-slot="0"></div>
+    <div class="slot" data-slot="1"></div>
+    <div class="slot" data-slot="2"></div>
+    <div class="slot" data-slot="3"></div>
+    <div class="slot" data-slot="4"></div>
+    </div>
+
+    <!--The below code has been taken from ChatGPT with my changes to the styling-->
+    
+   <!-- <button id="addBtn">Add Subject </button> -->
+
+  <div id="modal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.4);">
+    <div style="background:white; width:320px; margin:10% auto; padding:16px; border-radius:10px;">
+      <h3>Add Activity</h3>
+
+      <label>Activity</label>
+      <input id="Activity" type="text" style="width:100%;"/>
+
+      <label>Day</label>
+      <select id="Day" style="width:100%;">
+        <option value="">Select a day</option>
+        <option value="Monday">Monday</option>
+        <option value="Tuesday">Tuesday</option>
+        <option value="Wednesday">Wednesday</option>
+        <option value="Thursday">Thursday</option>
+        <option value="Friday">Friday</option>
+        <option value="Saturday">Saturday</option>
+        <option value="Sunday">Sunday</option>
+      </select>
+
+      <label>Time</label>
+      <input id="time" type="text" style="width:100%;"/>
+
+      <div style="margin-top:12px;">
+        <button id="saveBtn" location.href = 'Database.py' >Save</button>
+        <button id="closeBtn">Close</button>
+      </div>
+    </div>
+  </div>
+
+<script>
+document.getElementById("saveBtn").addEventListener("click", () => {
+    const Activity = document.getElementById("Activity").value.trim();
+    const date = document.getElementById("Day").value.trim();
+    const time = document.getElementById("time").value.trim();
+    
+
+    if (!Activity || !date || !time) {
+        alert("Please fill in all fields.");
+        return;
+    }
+
+    if (!/^[A-Za-z\s]+$/.test(Activity)) {
+        alert("Activity must contain letters only.");
+        return;
+    }
+
+    if (!isValidTime(time)) {
+        alert("Time must be in format like '5:00' or '5pm'.");
+        return;
+    }
+
+    const content =
+        `Activity: ${Activity}\n` +
+        `Date: ${date}\n` +
+        `Time: ${time}\n` +
+        `----------------------\n`;
+
+    const blob = new Blob([content], { type: "text/plain" });
+    const url = URL.createObjectURL(blob);
+
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "database.txt";
+    a.click();
+
+    URL.revokeObjectURL(url);
+});
+</script>
+
+<ul id="list"></ul>
+
+<script>
+  
+  // One entry per slot (5 slots)
+  const Activity = Array(5).fill(null);
+  const slots = document.querySelectorAll(".slot");
+
+  function renderSlot(i) {
+    const slot = document.querySelector(`.slot[data-slot="${i}"]`);
+    const item = Activity[i];
+
+    // If empty: show "Add Subject"
+    if (!item) {
+      slot.innerHTML = `<div class="addHint">+ Add Activity</div>`;
+      slot.querySelector(".addHint").onclick = () => showForm(i);
+      return;
+    }
+
+    // If saved: show subject info (click to edit)
+    slot.innerHTML = `
+      <div class="ActivityCard">
+        <div class="title">${escapeHtml(item.Activity)}</div>
+        <div class="meta">Day: ${escapeHtml(item.date)} | Time: ${escapeHtml(item.time)}</div>
+        <div class="meta" style="margin-top:6px; opacity:0.8;">Click to edit</div>
+      </div>
+    `;
+    slot.onclick = () => showForm(i);
+  }
+
+  function showForm(i) {
+    const slot = document.querySelector(`.slot[data-slot="${i}"]`);
+    const existing = Activity[i] || { Activity: "", date: "", time: "" };
+
+    slot.onclick = null; // disable card click while editing
+
+    slot.innerHTML = `
+      <form class="inlineForm" onsubmit="return false;">
+        <input id="act-${i}" placeholder="Activity" value="${escapeAttr(existing.Activity)}" />
+        <div class="row">
+          <select id="date-${i}" style="width: 100%; padding: 6px; border-radius: 8px; border: 1px solid #ccc; box-sizing: border-box;">
+            <option value="">Select Day</option>
+            <option value="Monday" ${existing.date === 'Monday' ? 'selected' : ''}>Monday</option>
+            <option value="Tuesday" ${existing.date === 'Tuesday' ? 'selected' : ''}>Tuesday</option>
+            <option value="Wednesday" ${existing.date === 'Wednesday' ? 'selected' : ''}>Wednesday</option>
+            <option value="Thursday" ${existing.date === 'Thursday' ? 'selected' : ''}>Thursday</option>
+            <option value="Friday" ${existing.date === 'Friday' ? 'selected' : ''}>Friday</option>
+            <option value="Saturday" ${existing.date === 'Saturday' ? 'selected' : ''}>Saturday</option>
+            <option value="Sunday" ${existing.date === 'Sunday' ? 'selected' : ''}>Sunday</option>
+          </select>
+          <input id="time-${i}" placeholder="Time" value="${escapeAttr(existing.time)}" />
+        </div>
+        <div class="row">
+          <button type="button" id="save-${i}">Save</button>
+          <button type="button" id="cancel-${i}">Cancel</button>
+          <button type="button" id="clear-${i}" style="margin-left:auto;">Clear</button>
+        </div>
+      </form>
+    `;
+
+    slot.querySelector(`#save-${i}`).onclick = () => {
+      const activity = document.getElementById(`act-${i}`).value.trim();
+      const date = document.getElementById(`date-${i}`).value.trim();
+      const time = document.getElementById(`time-${i}`).value.trim();
+      alert("Your activity has been saved");
+
+
+      if (!activity || !date || !time) {
+        alert("Fill in all fields");
+        return;
+      }
+
+      if (!/^[A-Za-z\s]+$/.test(activity)) {
+        alert("Activity must contain letters only.");
+        return;
+      }
+
+      if (!isValidTime(time)) {
+        alert("Time must be in format like '5:00' or '5pm'.");
+        return;
+      }
+
+      Activity[i] = { Activity: activity, date, time };
+      renderSlot(i);
+      saveToStorage();
+    };
+
+    slot.querySelector(`#cancel-${i}`).onclick = () => {
+      renderSlot(i);
+    };
+
+    slot.querySelector(`#clear-${i}`).onclick = () => {
+      Activity[i] = null;
+      renderSlot(i);
+      saveToStorage();
+    };
+  }
+
+  // Optional: persist data in browser so it stays after refresh
+  function saveToStorage() {
+    localStorage.setItem("Activity", JSON.stringify(Activity));
+  }
+  function loadFromStorage() {
+    const raw = localStorage.getItem("Activity");
+    if (!raw) return;
+    try {
+      const parsed = JSON.parse(raw);
+      if (Array.isArray(parsed) && parsed.length === Activity.length) {
+        for (let i = 0; i < Activity.length; i++) Activity[i] = parsed[i];
+      }
+    } catch {}
+  }
+
+  // Safety helpers
+  function escapeHtml(str) {
+    return String(str)
+      .replaceAll("&", "&amp;")
+      .replaceAll("<", "&lt;")
+      .replaceAll(">", "&gt;")
+      .replaceAll('"', "&quot;")
+      .replaceAll("'", "&#039;");
+  }
+  function escapeAttr(str) {
+    return escapeHtml(str).replaceAll('"', "&quot;");
+  }
+
+  // Time validation helper
+  function isValidTime(timeStr) {
+    // Allow formats like: 5:00, 5pm, 5:00pm, 17:00, 5 am, etc.
+    const timeRegex = /^(\d{1,2})(:(\d{2}))?\s*(am|pm|AM|PM)?$/;
+    return timeRegex.test(timeStr.trim());
+  }
+
+  // Init
+  loadFromStorage();
+  for (let i = 0; i < Activity.length; i++) renderSlot(i);
+</script>
+
+    </head>
+    </body>
+</html>
+</html>

@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+    <body style="background-color:#F8F7F3 ;"> 
+    <head> 
+    <style>
+    .homebtn {
+    background-color: none;
+    color: none;
+    font-size: 15px;
+    padding: 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    }
+    #subjectBox {
+    position: relative;
+    width: 450px;
+    height: 700px;
+    left: 10px;
+    top: 25px;
+    } 
+
+    .subjectBoxImg {
+    width: 100%;
+    height: 100%;
+    display:block;
+    }
+
+    /* This box is your RED rectangle area */
+  #slot1{
+    position: absolute;
+
+    /* 👇 These numbers control where the red box is */
+    left: 35px;
+    top: 110px;
+    width: 380px;
+    height: 120px;
+
+    /* centers the button inside that rectangle */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    }
+
+  .addSubjectBtn{
+    padding: 10px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    }
+
+    
+    </style>
+
+<!--The following code is for the navigation panel -->
+
+    <button class ="logo"> 
+        <img src="./Elements/Purple logo.png" style = "width: 120px;height:120px; ">
+    </button>
+    <button id="navigateButton" onclick = location.href='index.html' class="Home" style = "position: relative;width: 220px;height: 90px;left: 200px;top: 0.5px;"> 
+        <img src="./Elements/Home .png">
+        <script>
+        document.getElementById("navigateButton").onclick = function () {
+            window.location.href = "index.html";
+        };
+    </script>
+    </button>
+    <button onclick = location.href='Timetablepage.html' class="Timetable" style = "position: relative;width: 350px;height: 90px;left: 250px;top: 0.5px;" >
+        <img src="./Elements/Timetable.png " >
+    </button>
+    <button onclick = location.href='Motivationpage.html' class="Timetable"style = "position: relative;width: 400px;height: 90px;left: 300px;top: 0.5px;" >
+        <img src="./Elements/Motivation.png ">
+    </button>
+
+    <!--The following code is for the home page layout -->
+
+     <!-- <background class="Subject list" >
+        <img src="./Elements/Subject box.png "style = "position: relative;width: 450px;height: 700px;left: 10px;top: 25px;">
+    </background> -->
+    <!-- <div id="subjectBox">
+      <img src="./Elements/Subject box.png" class="subjectBoxImg">
+
+      <button id="addBtn" class="addSubjectBtn">+ Add Subject</button>
+    </div> -->
+
+    <div id="subjectBox">
+      <img src="./Elements/Subject box.png" class="subjectBoxImg">
+
+  <!-- This invisible overlay matches the 'first subject' rectangle -->
+      <div id="slot1">
+        <button id="addBtn" class="addSubjectBtn">Add Subject</button>
+      </div>
+    </div>
+
+
+    
+    <background class="progress" >
+        <img src="./Elements/Progess bar.png "style = "position: relative;width: 300px;height: 95px;left: 490px; bottom: 674px;">
+    </background>
+
+    <!--The below code has been taken from ChatGPT with my changes to the styling-->
+    
+   <!-- <button id="addBtn">Add Subject </button> -->
+
+  <div id="modal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.4);">
+    <div style="background:white; width:320px; margin:10% auto; padding:16px; border-radius:10px;">
+      <h3>Add Subject</h3>
+
+      <label>Subject</label>
+      <input id="subject" type="text" style="width:100%;"/>
+
+      <label>Current grade</label>
+      <input id="current" type="text" style="width:100%;"/>
+
+      <label>Target grade</label>
+      <input id="target" type="text" style="width:100%;"/>
+
+      <div style="margin-top:12px;">
+        <button id="saveBtn" location.href = 'Database.py' >Save</button>
+        <button id="closeBtn">Close</button>
+      </div>
+    </div>
+  </div>
+
+<ul id="list"></ul>
+
+<script>
+  const modal = document.getElementById("modal");
+  const list = document.getElementById("list");
+  const data = [];
+
+  document.getElementById("addBtn").onclick = () => modal.style.display = "block";
+  document.getElementById("closeBtn").onclick = () => modal.style.display = "none";
+
+  document.getElementById("saveBtn").onclick = () => {
+    const subject = document.getElementById("subject").value.trim();
+    const current = document.getElementById("current").value.trim();
+    const target = document.getElementById("target").value.trim();
+
+    if (!subject || !current || !target) {
+      alert("Fill in all fields");
+      return;
+    }
+
+    data.push({ subject, current, target });
+
+    const li = document.createElement("li");
+    li.textContent = `${subject} (Current: ${current}, Target: ${target})`;
+    list.appendChild(li);
+
+    modal.style.display = "none";
+  };
+</script>
+
+    </head>
+    </body>
+</html>

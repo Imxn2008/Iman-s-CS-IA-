@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<pyhthon database.py >
+<html lang="en"> 
+    <body style="background-color:#F8F7F3 ;"> 
+    <head> 
+    <style>
+    .homebtn {
+    background-color: none;
+    color: none;
+    font-size: 15px;
+    padding: 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    }
+    
+    </style>
+
+    <!--The following code is for the navigation panel -->
+
+    <button class ="logo"> 
+        <img src="./Elements/Purple logo.png" style = "width: 120px;height:120px; " style="box-shadow: 10px 10px 5px grey;">
+    </button>
+
+  
+
+    <button id="navigateButton" onclick = location.href='index.html'class="Home" style = "position: relative;width: 220px;height: 90px;left: 200px;top: 0.5px;"> 
+        <img src="./Elements/Home .png"style="box-shadow: 10px 10px 5px grey;">
+        <script>
+        document.getElementById("navigateButton").onclick = function () {
+            window.location.href = "index.html";
+        };
+        </script>
+   </button>
+    
+    <button onclick = location.href='Timetablepage.html' class="Timetable" style = "position: relative;width: 350px;height: 90px;left: 250px;top: 0.5px;" style="box-shadow: 10px 10px 5px grey;" >
+        <img src="./Elements/Timetable.png " style="box-shadow: 10px 10px 5px grey;">
+    </button>
+    <button onclick = location.href='Motivationpage.html' class="Timetable"style = "position: relative;width: 400px;height: 90px;left: 300px;top: 0.5px;" >
+        <img src="./Elements/Motivation.png " style="box-shadow: 10px 10px 5px grey;">
+    </button>
+    
+    <div class = "Goalbox">
+        <img src = "./Elements/Goal box.png" style = "position: absolute; width: 600px; height: 200px; left: 450px; bottom: 225px;" >
+        <input type="text" id="goalInput" style= "position: absolute; left: 500px; bottom: 310px; width: 500px; height: 30px; background: transparent; border: none; font-size: 24px; color: rgb(12, 36, 219);"  placeholder= "Enter your goal here" > 
+
+    </div>
+
+    <script>
+        const goalInput = document.getElementById('goalInput');
+
+        // Load goal on page load
+        fetch('http://127.0.0.1:5000/api/goal')
+            .then(response => response.json())
+            .then(data => {
+                goalInput.value = data.goal;
+            })
+            .catch(error => console.error('Error loading goal:', error));
+
+        // Save goal on input change
+        goalInput.addEventListener('input', function() {
+            fetch('http://127.0.0.1:5000/api/goal', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ goal: goalInput.value }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status !== 'ok') {
+                    console.error('Error saving goal:', data.error);
+                }
+            })
+            .catch(error => console.error('Error saving goal:', error));
+        });
+    </script>
+    </head> 
+    <head> 
+        <img src="https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExcWRrajdxOG5yczRldGNwZm15bmtvMmZlaHN3bzBxNGtraHQycmhmMCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/VIPZtDkG2nMO4XSGSz/giphy.gif">
+        <img src="https://media.giphy.com/media/v1.Y2lkPWVjZjA1ZTQ3dDFvMXpwczd6NDlpc3lhZ3ZtYjloZ3dkZW5tcDRzaXkxeGpkcHl4ZSZlcD12MV9naWZzX3JlbGF0ZWQmY3Q9Zw/H4uJaSfgsVVHN7NKAH/giphy.gif">
+        <img src = https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExcWl1M2xzZTU5aGVuaGE0b2lwZGJvN2hqbHQ0ZGNvNjc3MXp1M2RldSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/T9JPznkGDAxYC8m7yC/giphy.gif>
+        <img src = https://media.giphy.com/media/v1.Y2lkPWVjZjA1ZTQ3OWtoYmNxNDR1a3hhNXhlemZzMGtlc3lzazl4YTRpY2o0YnFsaGZociZlcD12MV9naWZzX3NlYXJjaCZjdD1n/qicjTzhg4sth8BsdI5/giphy.gif>
+        <img src = https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExYWxsa3oxa3BpZzduZ2h3Y2h5M3htaTBkZjVub2tqY2JyOTdpeDhlaCZlcD12MV9naWZzX3NlYXJjaCZjdD1n/dxOQ12F7aaYn3QJLd3/giphy.gif>
+        <img src = https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExbjRhNXFvMmhobGRlMmV5OWFzc20yZXViZG8wZjJzZ2Z1ZWFjdGcxMiZlcD12MV9naWZzX3NlYXJjaCZjdD1n/EMAIjyzdNmaGvzZPtU/giphy.gif style= "position: relative; width: 450px; height: 250px; left: 365px; bottom: 1106px;">
+        
+    </head>
+</body>
+</html>
